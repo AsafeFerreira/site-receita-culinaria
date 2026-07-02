@@ -1,0 +1,223 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #fffbf0;
+  font-family: var(--fonte-corpo);
+}
+
+/* ── Página ── */
+.rform-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ── Cabeçalho ── */
+.rform-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #76503f;
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color .18s;
+}
+.rform-back:hover { color: #c8350a; }
+
+.rform-header { margin-bottom: 28px; }
+
+.rform-title {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 700;
+  color: #1a0a00;
+  line-height: 1.1;
+}
+
+.rform-sub {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #76503f;
+}
+
+/* ── Card do formulário ── */
+.rform-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 32px;
+  box-shadow: 0 2px 4px rgba(84,31,8,.04), 0 8px 24px rgba(84,31,8,.08);
+  border: 1px solid rgba(200,53,10,.08);
+  display: grid;
+  gap: 22px;
+}
+
+/* ── Campo genérico ── */
+.rfield { display: grid; gap: 8px; }
+
+.rfield-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #76503f;
+  letter-spacing: .02em;
+}
+
+.rfield-hint {
+  font-size: 12px;
+  color: #9a6b57;
+  margin-top: -4px;
+}
+
+.rfield-input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #1a0a00;
+  background: #fff7ed;
+  border: 1.5px solid rgba(200,53,10,.15);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+  appearance: none;
+}
+
+.rfield-input:focus {
+  border-color: #c8350a;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(200,53,10,.12);
+}
+
+.rfield-input::placeholder { color: #c9b49e; }
+
+.rfield-textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.6;
+}
+
+/* ── Dois campos lado a lado ── */
+.rfield-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── Select customizado ── */
+.rselect-wrap { position: relative; }
+.rselect-wrap .rfield-input { padding-right: 36px; cursor: pointer; }
+.rselect-arrow {
+  position: absolute;
+  right: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: #9a6b57; font-size: 13px;
+  pointer-events: none;
+}
+
+/* ── Botões de categoria ── */
+.rcat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rcat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #76503f;
+  background: #fff7ed;
+  border: 1.5px solid rgba(200,53,10,.18);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .18s, border-color .18s, color .18s, transform .15s, box-shadow .18s;
+}
+
+.rcat-btn:hover {
+  background: #fef3c7;
+  border-color: #f97316;
+  color: #c8350a;
+  transform: translateY(-1px);
+}
+
+.rcat-btn.ativo {
+  background: linear-gradient(135deg, #c8350a, #f97316);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(200,53,10,.28);
+  transform: translateY(-1px);
+}
+
+/* ── Upload de imagem ── */
+.rupload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 20px;
+  background: #fff7ed;
+  border: 2px dashed rgba(200,53,10,.25);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .2s, background .2s;
+}
+
+.rupload:hover {
+  border-color: #f97316;
+  background: #fef3c7;
+}
+
+.rupload input { display: none; }
+
+.rupload-icon { font-size: 32px; }
+
+.rupload-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #76503f;
+  word-break: break-all;
+}
+
+.rupload-hint {
+  font-size: 12px;
+  color: #9a6b57;
+}
+
+/* ── Botão submit ── */
+.rform-submit {
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #c8350a, #f97316);
+  font-size: 15px;
+  font-weight: 800;
+  font-family: inherit;
+  letter-spacing: .03em;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 8px 20px rgba(200,53,10,.28);
+}
+
+.rform-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(200,53,10,.38);
+}
+
+.rform-submit:active { transform: translateY(0); }
+
+/* ── Responsivo ── */
+@media (max-width: 480px) {
+  .rform-card { padding: 24px 18px; }
+  .rfield-row { grid-template-columns: 1fr; }
+}

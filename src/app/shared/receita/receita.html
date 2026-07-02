@@ -1,0 +1,36 @@
+<article
+  class="receita-card animar-subir"
+  role="button"
+  tabindex="0"
+  (click)="selecionar.emit(data())"
+  (keydown.enter)="selecionar.emit(data())"
+>
+  <div class="receita-card-imagem">
+    <img
+      [src]="imagemSrc()"
+      [alt]="data().titulo"
+      loading="lazy"
+      (error)="corrigirImagem($event)"
+    />
+
+    <span class="badge receita-card-badge" [class]="'badge receita-card-badge ' + categoriaClasse()">
+      {{ data().categoria }}
+    </span>
+  </div>
+
+  <div class="receita-card-corpo">
+    <h3 class="receita-card-titulo">{{ data().titulo }}</h3>
+
+    @if (data().descricao) {
+      <p class="receita-card-texto texto-3-linhas">{{ data().descricao }}</p>
+    }
+
+    <div class="receita-card-rodape">
+      <span class="receita-card-meta">⏱ {{ data().tempo_preparo }}</span>
+
+      <span class="tag-dificuldade" [class]="'tag-dificuldade ' + dificuldadeClasse()">
+        {{ data().dificuldade }}
+      </span>
+    </div>
+  </div>
+</article>

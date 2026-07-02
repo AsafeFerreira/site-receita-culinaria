@@ -1,0 +1,150 @@
+.rodape {
+  position: relative;
+  background: rgb(138, 47, 5);
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 80px;
+}
+
+.rodape::before {
+  content: '';
+  position: absolute;
+  top: -119px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0%2C0 C480%2C120 960%2C0 1440%2C0 L1440%2C120 L0%2C120 Z' fill='rgb(138%2C47%2C5)'/%3E%3C/svg%3E") no-repeat top center;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+.rodape-container {
+  width: min(1120px, calc(100% - 32px));
+  margin-inline: auto;
+  padding: 60px 0 40px;
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 48px;
+}
+
+/* Marca */
+.rodape-marca {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rodape-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fonte-titulo);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.rodape-logo-destaque {
+  color: rgb(252, 170, 116)
+}
+
+.rodape-descricao {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 260px;
+}
+
+/* Colunas de navegação */
+.rodape-nav {
+  display: contents;
+}
+
+.rodape-coluna {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rodape-titulo-coluna {
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgb(252, 170, 116);
+  margin-bottom: 4px;
+}
+
+.rodape-coluna ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rodape-coluna a {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color var(--transicao);
+}
+
+.rodape-coluna a:hover {
+  color: #fff;
+}
+
+/* Base */
+.rodape-base {
+  border-top: 1px solid rgba(73, 11, 11, 0.08);
+  padding: 20px 0;
+  text-align: center;
+}
+
+.rodape-base p {
+  width: min(1120px, calc(100% - 32px));
+  margin-inline: auto;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.61);
+}
+
+.rodape-base p.rodape-criadores {
+  margin-top: 6px;
+  font-family: var(--fonte-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.rodape-criador-nome {
+  color: rgb(252, 170, 116);
+  font-weight: 600;
+  transition: color var(--transicao);
+}
+
+.rodape-criadores:hover .rodape-criador-nome {
+  color: #fff;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .rodape-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+
+  .rodape-marca {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .rodape-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 40px 0 28px;
+  }
+}

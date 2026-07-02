@@ -1,0 +1,68 @@
+<main class="login-container">
+  <section class="form-section">
+    <button class="close-btn" type="button" aria-label="Fechar" (click)="fechar()">&#x2715;</button>
+
+    <div class="chef-animated-icon"></div>
+
+    <div class="auth-box">
+      <h1 class="auth-title">Bem-vindo de volta!</h1>
+      <p class="auth-subtitle">Entre para acessar suas receitas favoritas</p>
+
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <div class="field-wrapper">
+          <label class="field-label" for="email">E-mail</label>
+          <div class="input-group">
+            <span class="input-icon">&#9993;</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="seu@email.com"
+              required
+              formControlName="email"
+            />
+          </div>
+        </div>
+
+        <div class="field-wrapper">
+          <label class="field-label" for="password">Senha</label>
+          <div class="input-group">
+            <span class="input-icon">&#128274;</span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              required
+              formControlName="password"
+            />
+            <button type="button" class="toggle-password" ></button>
+          </div>
+        </div>
+
+        <div class="forgot-row">
+          <a href="#" class="forgot-password">Esqueci minha senha</a>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="estaCarregando()">
+          @if (estaCarregando()) {
+            Entrando...
+          } @else {
+            Entrar
+          }
+        </button>
+      </form>
+
+      <p class="switch-auth">
+        Não tem uma conta? <a routerLink="/cadastro">Cadastre-se</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="image-section">
+    <div class="menu-icon-wrapper">
+      <div class="hamburger-menu"></div>
+    </div>
+  </section>
+</main>

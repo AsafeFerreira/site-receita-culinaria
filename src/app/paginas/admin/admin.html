@@ -1,0 +1,262 @@
+<div class="admin-shell">
+  <aside class="admin-sidebar" [class.sidebar-closed]="!sidebarOpen()">
+    <div class="brand-row">
+      <div class="brand-icon">♨</div>
+      @if (sidebarOpen()) {
+        <strong class="brand-text">Sabor & Arte</strong>
+      }
+    </div>
+
+    <nav class="side-nav" aria-label="Menu do painel administrativo">
+      @for (item of navItems; track item.id) {
+        <button
+          type="button"
+          class="side-link"
+          [class.active]="tab() === item.id"
+          (click)="setTab(item.id)"
+        >
+          <span class="side-indicator" aria-hidden="true"></span>
+          <span class="side-icon">{{ item.icon }}</span>
+          @if (sidebarOpen()) {
+            <span class="side-label">{{ item.label }}</span>
+          }
+        </button>
+      }
+    </nav>
+
+    <div class="side-bottom">
+      <button type="button" class="side-link muted" (click)="goHome()">
+        <span class="side-icon">›</span>
+        @if (sidebarOpen()) {
+          <span class="side-label">Ir ao site</span>
+        }
+      </button>
+
+      <button type="button" class="side-link muted danger-hover" (click)="logout()">
+        <span class="side-icon">↳</span>
+        @if (sidebarOpen()) {
+          <span class="side-label">Sair</span>
+        }
+      </button>
+    </div>
+
+    <button type="button" class="collapse-btn" (click)="toggleSidebar()" aria-label="Abrir ou fechar menu">
+      <span [class.rotated]="!sidebarOpen()">›</span>
+    </button>
+  </aside>
+
+  <section class="admin-main">
+    <header class="admin-topbar">
+      <label class="search-box" aria-label="Buscar no painel">
+        <span>⌕</span>
+        <input
+          type="search"
+          placeholder="Buscar..."
+          [value]="searchTerm()"
+          (input)="searchTerm.set($any($event.target).value)"
+        />
+      </label>
+
+      <div class="topbar-actions">
+        <button type="button" class="bell-btn" aria-label="Notificações">
+          ♢
+          <span></span>
+        </button>
+        <div class="user-mini">
+          <div class="avatar-mini">{{ user.name.slice(0, 2).toUpperCase() }}</div>
+          <div>
+            <strong>{{ user.name }}</strong>
+            <small>{{ user.email }}</small>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      @if (tab() === 'recipes') {
+        <section class="panel-section fade-section">
+          <div class="section-head">
+            <div>
+              <h1>Minhas Receitas</h1>
+              <p>{{ localRecipes().length }} receitas publicadas</p>
+            </div>
+            <button type="button" class="primary-btn" (click)="publishRecipe()">+ Nova Receita</button>
+          </div>
+
+          @if (carregando()) {
+            <div class="flex justify-center items-center gap-2 text-slate-600 w-full p-50">
+              <svg class="animate-spin h-5 w-5 text-slate-500"
+                   xmlns="http://www.w3.org/2000/svg"
+                   fill="none"
+                   viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10"
+                        stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8z"></path>
+              </svg>
+              <span class="text-sm">Carregando...</span>
+            </div>
+          } @else if (filteredRecipes().length === 0) {
+            <div class="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700 m-4">
+              <p class="text-sm">Não existem receitas cadastradas. Por favor, crie uma nova receita.</p>
+            </div>
+          } @else {
+            <div class="recipes-grid-admin">
+              @for (recipe of filteredRecipes(); track recipe.id; let i = $index) {
+                <article class="admin-recipe-card stagger" [style.animation-delay]="i * 0.07 + 's'">
+                  <div class="recipe-image-wrap">
+                    <img [src]="recipe.image" [alt]="recipe.name" />
+                    <div class="image-shade"></div>
+                    <span class="category-badge">{{ recipe.category }}</span>
+                    <div class="card-actions">
+                      <button type="button" aria-label="Ver receita" (click)="openRecipe(recipe)">◉</button>
+                      <a aria-label="Editar receita" [routerLink]="['/admin/edit', recipe.id]">✎</a>
+                      <button type="button" aria-label="Excluir receita" (click)="askDelete(recipe.id)">🗑</button>
+                    </div>
+                  </div>
+                  <div class="recipe-card-body">
+                    <strong>{{ recipe.name }}</strong>
+                    <div class="recipe-row">
+                      <span>◷ {{ recipe.prepTime }}min</span>
+                      <b [class]="difficultyClass(recipe.difficulty)">{{ recipe.difficulty }}</b>
+                    </div>
+                    <div class="recipe-stats-row">
+                      <span>◉ {{ recipe.views }}</span>
+                      <span>♡ {{ recipe.likes }}</span>
+                      <span>☆ {{ recipe.rating }}</span>
+                    </div>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        </section>
+      }
+
+      @if (tab() === 'profile') {
+        <section class="panel-section fade-section">
+          <h1 class="single-title">Meu Perfil</h1>
+
+          <div class="profile-grid">
+            <article class="white-card profile-card">
+              <div class="profile-avatar">{{ user.name.slice(0, 2).toUpperCase() }}</div>
+              <h2>{{ user.name }}</h2>
+              <p>{{ user.email }}</p>
+              <span class="chef-badge">🏆 Chef Estrela</span>
+
+              <div class="profile-numbers">
+                <div><strong>{{ localRecipes().length }}</strong><small>Receitas</small></div>
+                <div><strong>84</strong><small>Curtidas</small></div>
+                <div><strong>4.8</strong><small>Avaliação</small></div>
+              </div>
+
+              <button type="button" class="outline-btn">Editar Foto</button>
+            </article>
+
+            <article class="white-card profile-form">
+              <h2>Informações Pessoais</h2>
+              <label>
+                <span>Nome completo</span>
+                <input type="text" [value]="user.name" />
+              </label>
+              <label>
+                <span>E-mail</span>
+                <input type="email" [value]="user.email" />
+              </label>
+              <label>
+                <span>Telefone</span>
+                <input type="tel" value="(11) 99999-0000" />
+              </label>
+              <label>
+                <span>Cidade</span>
+                <input type="text" value="Petrópolis, RJ" />
+              </label>
+              <label>
+                <span>Bio</span>
+                <textarea rows="3">Apaixonado pela culinária brasileira e por receitas caseiras bem explicadas.</textarea>
+              </label>
+              <button type="button" class="primary-btn">Salvar Alterações</button>
+            </article>
+          </div>
+        </section>
+      }
+
+      @if (tab() === 'settings') {
+        <section class="panel-section fade-section settings-section">
+          <h1 class="single-title">Configurações</h1>
+
+          @for (section of settingsSections; track section.section) {
+            <article class="white-card settings-card">
+              <h2>{{ section.section }}</h2>
+              @for (item of section.items; track item.label) {
+                <div class="toggle-row">
+                  <div>
+                    <strong>{{ item.label }}</strong>
+                    <p>{{ item.desc }}</p>
+                  </div>
+                  <button type="button" class="toggle" [class.on]="item.on" (click)="toggleSetting(item)" aria-label="Ativar ou desativar configuração">
+                    <span></span>
+                  </button>
+                </div>
+              }
+            </article>
+          }
+
+          <article class="white-card danger-zone">
+            <h2>Zona de Perigo</h2>
+            <div>
+              <span>
+                <strong>Excluir minha conta</strong>
+                <p>Esta ação é irreversível e apagará todos os seus dados.</p>
+              </span>
+              <button type="button">Excluir conta</button>
+            </div>
+          </article>
+        </section>
+      }
+    </main>
+  </section>
+
+  @if (deleteId() !== null) {
+    <div class="modal-layer">
+      <button type="button" class="modal-backdrop" aria-label="Fechar confirmação" (click)="cancelDelete()"></button>
+      <article class="confirm-modal">
+        <button type="button" class="modal-close" (click)="cancelDelete()">×</button>
+        <div class="delete-icon">🗑</div>
+        <h3>Excluir receita?</h3>
+        <p>Esta ação não pode ser desfeita.</p>
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" (click)="cancelDelete()">Cancelar</button>
+          <button type="button" class="delete-btn" (click)="confirmDelete()">Excluir</button>
+        </div>
+      </article>
+    </div>
+  }
+
+  @if (selectedRecipe(); as recipe) {
+    <div class="modal-layer">
+      <button type="button" class="modal-backdrop" aria-label="Fechar receita" (click)="closeRecipe()"></button>
+      <article class="recipe-modal-admin">
+        <button type="button" class="modal-close" (click)="closeRecipe()">×</button>
+        <img [src]="recipe.image" [alt]="recipe.name" />
+        <div class="recipe-modal-body">
+          <span class="category-pill">{{ recipe.category }}</span>
+          <h3>{{ recipe.name }}</h3>
+          <p>{{ recipe.description }}</p>
+          <div class="modal-info-row">
+            <span>◷ {{ recipe.prepTime }}min</span>
+            <span>☆ {{ recipe.rating }}</span>
+            <span>{{ recipe.difficulty }}</span>
+          </div>
+          <h4>Ingredientes principais</h4>
+          <ul>
+            @for (ingredient of recipe.ingredients; track ingredient) {
+              <li>{{ ingredient }}</li>
+            }
+          </ul>
+        </div>
+      </article>
+    </div>
+  }
+</div>

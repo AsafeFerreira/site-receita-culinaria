@@ -1,0 +1,137 @@
+<main class="receitas-page">
+  <section class="receitas-hero">
+    <div class="hero-decor hero-decor-1"></div>
+    <div class="hero-decor hero-decor-2"></div>
+    <div class="hero-decor hero-decor-3"></div>
+
+    <div class="container receitas-hero-conteudo animar-subir">
+      <span class="eyebrow receitas-eyebrow">🍽️ Receitas selecionadas</span>
+      <h1 class="receitas-hero-titulo">
+        Onde Sabor Encontra<br />
+        <span>Arte na Cozinha</span>
+      </h1>
+      <p class="receitas-hero-sub">
+        Descubra e compartilhe receitas deliciosas. Busque por prato, ingrediente ou categoria e transforme cada preparo em uma experiência melhor.
+      </p>
+
+      <div class="busca-hero">
+        <span aria-hidden="true">🔎</span>
+        <input
+          type="text"
+          placeholder="Buscar por receita, ingrediente..."
+          [ngModel]="busca()"
+          (ngModelChange)="busca.set($event)"
+        />
+      </div>
+
+      <div class="receitas-stats">
+        <div>
+          <strong>{{ receitas().length }}</strong>
+          <span>Receitas</span>
+        </div>
+        <div>
+          <strong>{{ categorias().length - 1 }}</strong>
+          <span>Categorias</span>
+        </div>
+        <div>
+          <strong>{{ tempoMedio() }}</strong>
+          <span>Min. médio</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container receitas-conteudo">
+    <div class="filtros-lista animar-fade">
+      @for (categoria of categorias(); track categoria) {
+        <button
+          type="button"
+          class="filtro-btn"
+          [class.ativo]="categoriaAtiva() === categoria"
+          (click)="alterarCategoria(categoria)"
+        >
+          {{ categoria }}
+        </button>
+      }
+    </div>
+
+    <div class="receitas-grid-topo">
+      <p class="receitas-grid-titulo">
+        @if (carregando()) {
+          Carregando receitas...
+        } @else {
+          {{ receitasFiltradas().length }} {{ receitasFiltradas().length === 1 ? 'receita encontrada' : 'receitas encontradas' }}
+        }
+      </p>
+    </div>
+
+    @if (carregando()) {
+      <div class="receitas-grid">
+        @for (item of [1,2,3,4,5,6]; track item) {
+          <div class="receita-skeleton">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-corpo">
+              <div class="skeleton-linha largo"></div>
+              <div class="skeleton-linha medio"></div>
+              <div class="skeleton-linha curto"></div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else if (receitasFiltradas().length > 0) {
+      <div class="receitas-grid">
+        @for (item of receitasFiltradas(); track item.id) {
+          <app-receita [data]="item" (selecionar)="abrirReceita($event)"></app-receita>
+        }
+      </div>
+    } @else {
+      <div class="estado-vazio">
+        <span>🍳</span>
+        <h2>Nenhuma receita encontrada</h2>
+        <p>Tente buscar por outro ingrediente ou remova o filtro de categoria.</p>
+      </div>
+    }
+  </section>
+</main>
+
+@if (receitaSelecionada(); as receita) {
+  <div class="modal-backdrop" role="presentation" (click)="fecharReceita()">
+    <section class="receita-modal" role="dialog" aria-modal="true" [attr.aria-label]="receita.titulo" (click)="$event.stopPropagation()">
+      <div class="modal-imagem">
+        <img [src]="receita.imagem_url" [alt]="receita.titulo" />
+        <button type="button" class="modal-fechar" aria-label="Fechar receita" (click)="fecharReceita()">×</button>
+        <div class="modal-titulo">
+          <span>{{ receita.categoria }}</span>
+          <h2>{{ receita.titulo }}</h2>
+        </div>
+      </div>
+
+      <div class="modal-corpo">
+        <div class="modal-info-grid">
+          <div>
+            <span>⏱️</span>
+            <small>Tempo</small>
+            <strong>{{ receita.tempo_preparo }}</strong>
+          </div>
+          <div>
+            <span>🧑‍🍳</span>
+            <small>Dificuldade</small>
+            <strong class="tag-dificuldade" [class]="'tag-dificuldade ' + dificuldadeClasse(receita.dificuldade)">{{ receita.dificuldade }}</strong>
+          </div>
+          <div>
+            <span>🏷️</span>
+            <small>Categoria</small>
+            <strong>{{ receita.categoria }}</strong>
+          </div>
+        </div>
+
+        <h3>Ingredientes principais</h3>
+        <ul class="ingredientes-lista">
+          @for (ingrediente of ingredientesDaReceita(receita); track ingrediente) {
+            <li>{{ ingrediente }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+  </div>
+}

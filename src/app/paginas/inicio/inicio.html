@@ -1,0 +1,100 @@
+<main class="home-page">
+  <section class="hero-home">
+    <div class="hero-decor hero-decor-1"></div>
+    <div class="hero-decor hero-decor-2"></div>
+    <div class="hero-decor hero-decor-3"></div>
+
+    <div class="hero-conteudo animar-subir">
+      <span class="eyebrow">🍳 Sabor & Arte</span>
+      <h1 class="hero-titulo">
+        Onde Sabor Encontra<br />
+        <span>Arte na Cozinha</span>
+      </h1>
+      <p class="hero-subtitulo">
+        Descubra receitas deliciosas, pesquise por ingredientes e encontre ideias práticas para cozinhar melhor no dia a dia.
+      </p>
+
+      <div class="hero-acoes">
+        <a routerLink="/receitas" class="btn-primario hero-btn">Explorar receitas</a>
+        <a routerLink="/cadastro" class="btn-secundario">Criar conta</a>
+      </div>
+
+      <div class="hero-metricas" aria-label="Resumo do site">
+        <div>
+          <strong>{{ totalReceitas() }}</strong>
+          <span>Receitas</span>
+        </div>
+        <div>
+          <strong>{{ totalCategorias() }}</strong>
+          <span>Categorias</span>
+        </div>
+        <div>
+          <strong>{{ tempoMedio() }}min</strong>
+          <span>Tempo médio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual animar-subir delay-2">
+      @if (receitaAtual(); as receita) {
+        <div class="hero-prato-card">
+          <div class="hero-moldura">
+            <img [src]="receita.imagem_url" [alt]="receita.titulo" [class.saindo]="saindo()" />
+          </div>
+          <div class="hero-card-flutuante card-topo">
+            <span>🔥</span>
+            <div>
+              <strong>Receita em destaque</strong>
+              <small>{{ receita.titulo }}</small>
+            </div>
+          </div>
+          <div class="hero-card-flutuante card-baixo">
+            <span>⏱️</span>
+            <div>
+              <strong>{{ receita.tempo_preparo }}</strong>
+              <small>{{ receita.dificuldade }}</small>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="home-categorias container animar-fade">
+    <div class="section-heading">
+      <span>Escolha por vontade</span>
+      <h2>Categorias para começar</h2>
+    </div>
+
+    <div class="categorias-grid">
+      <a routerLink="/receitas" [queryParams]="{categoria: 'Sobremesa'}" class="categoria-card"><span>🍰</span><strong>Sobremesas</strong><small>Doces e cremosas</small></a>
+      <a routerLink="/receitas" [queryParams]="{categoria: 'Massa'}" class="categoria-card"><span>🍝</span><strong>Massas</strong><small>Clássicas e práticas</small></a>
+      <a routerLink="/receitas" [queryParams]="{categoria: 'Salada'}" class="categoria-card"><span>🥗</span><strong>Saladas</strong><small>Leves e frescas</small></a>
+      <a routerLink="/receitas" [queryParams]="{categoria: 'Sopa'}" class="categoria-card"><span>🍲</span><strong>Sopas</strong><small>Conforto no prato</small></a>
+    </div>
+  </section>
+
+  @if (receitas().length) {
+    <section class="galeria-receitas" #galeriaSecao>
+      <div class="galeria-sticky">
+        <div class="section-heading container">
+          <span>Inspiração em imagens</span>
+          <h2>Um gostinho das receitas</h2>
+        </div>
+
+        <div class="galeria-trilho" #trilho>
+          @for (receita of receitas(); track receita.id) {
+            <a
+              routerLink="/receitas"
+              [queryParams]="{ categoria: receita.categoria }"
+              class="galeria-item"
+            >
+              <img [src]="receita.imagem_url" [alt]="receita.titulo" loading="lazy" />
+              <span class="galeria-item-titulo">{{ receita.titulo }}</span>
+            </a>
+          }
+        </div>
+      </div>
+    </section>
+  }
+</main>

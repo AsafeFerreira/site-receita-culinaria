@@ -1,0 +1,51 @@
+<footer class="rodape">
+  <div class="rodape-container">
+
+    <div class="rodape-marca">
+      <a routerLink="/" class="rodape-logo" aria-label="Ir para a página inicial">
+        <span>🍽️</span> Sabor <span class="rodape-logo-destaque">& Arte</span>
+      </a>
+      <p class="rodape-descricao">
+        Receitas com sabor e criatividade para inspirar sua cozinha todos os dias.
+      </p>
+    </div>
+
+    <nav class="rodape-nav" aria-label="Links do rodapé">
+      <div class="rodape-coluna">
+        <h3 class="rodape-titulo-coluna">Explorar</h3>
+        <ul>
+          <li><a routerLink="/">Início</a></li>
+          <li><a routerLink="/receitas">Todas as receitas</a></li>
+          <li><a routerLink="/receitas" [queryParams]="{ categoria: 'Sobremesa' }">Sobremesas</a></li>
+          <li><a routerLink="/receitas" [queryParams]="{ categoria: 'Massa' }">Massas</a></li>
+          <li><a routerLink="/receitas" [queryParams]="{ categoria: 'Salada' }">Saladas</a></li>
+        </ul>
+      </div>
+
+      <div class="rodape-coluna">
+        <h3 class="rodape-titulo-coluna">Mais categorias</h3>
+        <ul>
+          <li><a routerLink="/receitas" [queryParams]="{ categoria: 'Bolo' }">Bolos</a></li>
+          <li><a routerLink="/receitas" [queryParams]="{ categoria: 'Sopa' }">Sopas</a></li>
+          <li><a routerLink="/receitas" [queryParams]="{ categoria: 'Grelhado' }">Grelhados</a></li>
+          <li><a routerLink="/receitas" [queryParams]="{ categoria: 'Lanche' }">Lanches</a></li>
+        </ul>
+      </div>
+
+      <div class="rodape-coluna">
+        <h3 class="rodape-titulo-coluna">Conta</h3>
+        <ul>
+          <li><a routerLink="/login">Entrar</a></li>
+          <li><a routerLink="/cadastro">Cadastrar</a></li>
+          <li><a routerLink="/admin">Painel admin</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+
+  <div class="rodape-base">
+    <p>© {{ ano }} Sabor & Arte. Todos os direitos reservados.</p>
+    <p class="rodape-criadores">Criado por <span class="rodape-criador-nome">Asafe Silva</span> e <span class="rodape-criador-nome">Maria Vieira</span></p>
+  </div>
+</footer>

@@ -1,0 +1,120 @@
+<div class="rform-page">
+
+  <header class="rform-header">
+    <a routerLink="/admin" class="rform-back">← Voltar ao painel</a>
+    <div>
+      <h1 class="rform-title">{{ id ? 'Editar receita' : 'Nova receita' }}</h1>
+      <p class="rform-sub">Preencha os campos abaixo e publique.</p>
+    </div>
+  </header>
+
+  <form class="rform-card" [formGroup]="receitaForm" (ngSubmit)="onSubmit()">
+
+    <!-- Título -->
+    <div class="rfield">
+      <label class="rfield-label" for="titulo">Título da receita</label>
+      <input
+        class="rfield-input"
+        type="text"
+        id="titulo"
+        formControlName="titulo"
+        placeholder="Ex: Bolo de Chocolate Fudge"
+      />
+    </div>
+
+    <!-- Categoria — botões -->
+    <div class="rfield">
+      <label class="rfield-label">Categoria</label>
+      <div class="rcat-grid">
+        @for (cat of categorias; track cat.valor) {
+          <button
+            type="button"
+            class="rcat-btn"
+            [class.ativo]="receitaForm.get('categoria')?.value === cat.valor"
+            (click)="selecionarCategoria(cat.valor)"
+          >
+            <span>{{ cat.emoji }}</span>
+            {{ cat.valor }}
+          </button>
+        }
+      </div>
+      <input type="hidden" formControlName="categoria" />
+    </div>
+
+    <!-- Descrição -->
+    <div class="rfield">
+      <label class="rfield-label" for="descricao">Descrição</label>
+      <p class="rfield-hint">Uma breve descrição que aparecerá no card da receita</p>
+      <textarea
+        class="rfield-input rfield-textarea"
+        id="descricao"
+        formControlName="descricao"
+        placeholder="Ex: Bolo úmido com cobertura de ganache cremosa, perfeito para qualquer ocasião."
+        rows="3"
+      ></textarea>
+    </div>
+
+    <!-- Ingredientes -->
+    <div class="rfield">
+      <label class="rfield-label" for="ingredientes_principais">Ingredientes principais</label>
+      <p class="rfield-hint">Separe cada ingrediente por vírgula</p>
+      <input
+        class="rfield-input"
+        type="text"
+        id="ingredientes_principais"
+        formControlName="ingredientes_principais"
+        placeholder="Ex: farinha, ovos, chocolate meio amargo"
+      />
+    </div>
+
+    <!-- Tempo + Dificuldade lado a lado -->
+    <div class="rfield-row">
+      <div class="rfield">
+        <label class="rfield-label" for="tempo_preparo">Tempo de preparo</label>
+        <input
+          class="rfield-input"
+          type="text"
+          id="tempo_preparo"
+          formControlName="tempo_preparo"
+          placeholder="Ex: 30 min"
+        />
+      </div>
+
+      <div class="rfield">
+        <label class="rfield-label" for="dificuldade">Dificuldade</label>
+        <div class="rselect-wrap">
+          <select class="rfield-input" id="dificuldade" formControlName="dificuldade">
+            <option value="">Selecione</option>
+            <option value="Fácil">Fácil</option>
+            <option value="Média">Média</option>
+            <option value="Difícil">Difícil</option>
+          </select>
+          <span class="rselect-arrow">▾</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload de imagem -->
+    <div class="rfield">
+      <label class="rfield-label">Imagem</label>
+      <label class="rupload" for="imagem_url">
+        <span class="rupload-icon">📷</span>
+        <span class="rupload-text">
+          {{ selectedFile ? selectedFile.name : 'Clique para escolher uma imagem' }}
+        </span>
+        <span class="rupload-hint">JPG, PNG ou WEBP</span>
+        <input
+          type="file"
+          id="imagem_url"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+        />
+      </label>
+    </div>
+
+    <button type="submit" class="rform-submit">
+      {{ id ? 'Salvar alterações' : 'Publicar receita' }}
+    </button>
+
+  </form>
+</div>

@@ -1,0 +1,23 @@
+<header class="cabecalho">
+  <a routerLink="/" class="logo" aria-label="Ir para a página inicial">
+    <span class="logo-icone">🍽️</span>
+    Sabor <span>& Arte</span>
+  </a>
+
+  <nav class="navbar" aria-label="Navegação principal">
+    <ul class="nav-lista">
+      <li><a routerLink="/" routerLinkActive="ativo" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Início</a></li>
+      <li><a routerLink="/receitas" routerLinkActive="ativo" class="nav-link">Receitas</a></li>
+    </ul>
+
+    <div class="nav-acoes">
+      @if (authService.isLoggenIn()) {
+        <a routerLink="/admin" class="btn-publicar">Painel Admin</a>
+        <button type="button" (click)="authService.logout()" class="btn-sair">Sair</button>
+      } @else {
+        <a routerLink="/login" class="btn-link-login">Entrar</a>
+        <a routerLink="/cadastro" class="btn-cadastrar">Cadastrar</a>
+      }
+    </div>
+  </nav>
+</header>
